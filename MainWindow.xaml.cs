@@ -18,7 +18,7 @@ namespace BamziLauncher
         {
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
-                MessageBox.Show("Adın yok mu senin?");
+                MessageBox.Show("Adını yazsana amınagodum");
                 return;
             }
 
@@ -27,17 +27,12 @@ namespace BamziLauncher
 
             try
             {
-                // ================== AYARLAR ==================
-                // 1. Forge Klasörünün TAM ADI (Bamzi_Data/versions içindekiyle AYNI olmalı)
-                // Klasör adın neyse buraya onu yaz!
+
                 var targetVersion = "1.20.1-forge-47.4.13";
 
-                // 2. Sunucu Bilgileri
                 var ip = "84.51.52.126";
                 var port = 25565;
-                // =============================================
 
-                // PORTABLE AYARI: EXE'nin yanındaki "Bamzi_Data" klasörü
                 var basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Bamzi_Data");
                 var path = new MinecraftPath(basePath);
 
@@ -45,10 +40,8 @@ namespace BamziLauncher
 
                 txtStatus.Text = "Sürüm kontrol ediliyor...";
 
-                // Sürümü buluyoruz (IVersion objesi gelir)
                 var versionInfo = await launcher.GetVersionAsync(targetVersion);
 
-                // BAŞLATMA AYARLARI
                 var launchOption = new MLaunchOption
                 {
                     MaximumRamMb = 4096,
@@ -60,12 +53,9 @@ namespace BamziLauncher
 
                 txtStatus.Text = "BamziMC Başlatılıyor...";
 
-                // --- İŞTE DÜZELTTİĞİMİZ YER ---
-                // versionInfo (Dosya) yerine versionInfo.Id (İsim) veriyoruz.
-                // Bu sayede "string'e dönüştürülemiyor" hatası YOK OLACAK.
+
                 var process = await launcher.CreateProcessAsync(versionInfo.Id, launchOption);
 
-                // B Planı: Sunucuya Zorla Giriş Komutu
                 process.StartInfo.Arguments += $" --server {ip} --port {port}";
 
                 this.Hide();
@@ -86,4 +76,5 @@ namespace BamziLauncher
             }
         }
     }
+
 }
